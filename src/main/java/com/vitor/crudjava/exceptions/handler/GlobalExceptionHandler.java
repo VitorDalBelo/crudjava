@@ -22,7 +22,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<ExceptionResponse> handleValidationExceptions(MethodArgumentNotValidException ex , WebRequest request) {
-        System.out.println("tratando o erro <><>");
         String firstError = ex.getBindingResult().getAllErrors().get(0).getDefaultMessage();
         ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), firstError, request.getDescription(false));
         return new ResponseEntity<>(exceptionResponse,HttpStatus.BAD_REQUEST);
