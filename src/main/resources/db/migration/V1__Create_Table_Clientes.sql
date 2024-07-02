@@ -1,0 +1,8 @@
+CREATE TABLE clientes (
+    id SERIAL PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    aniversario DATE NOT NULL,
+    telefone BIGINT NOT NULL CHECK (telefone >= 1000000000 AND telefone <= 99999999999),
+    cpf VARCHAR(11) NOT NULL UNIQUE
+);

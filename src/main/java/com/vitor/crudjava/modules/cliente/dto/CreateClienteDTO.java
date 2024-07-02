@@ -1,5 +1,11 @@
 package com.vitor.crudjava.modules.cliente.dto;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import com.vitor.crudjava.exceptions.httpExceptions.InternalServerErrorRequestException;
+import com.vitor.crudjava.modules.cliente.models.ClienteEntity;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Max;
@@ -25,7 +31,28 @@ public class CreateClienteDTO {
     @Schema(example = "3599991020") 
     private Long telefone;
     @NotNull(message = "O campo cpf é obrigatório") 
+    @Pattern(regexp = "\\d{11}", message = "O campo cpf deve conter exatamente 11 dígitos numéricos")
+    @Schema(example = "12345678901") 
     private String cpf;
+
+    public static ClienteEntity toEntity(CreateClienteDTO dto) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date aniversarioDate = null;
+        try {
+            aniversarioDate = formatter.parse(dto.getAniversario());
+        } catch (Exception e) {
+            throw new InternalServerErrorRequestException("Erro ao converter a data de aniversário: " + e.getMessage());
+        }
+
+        return new ClienteEntity(
+            dto.getNome(),
+            dto.getEmail(),
+            aniversarioDate,
+            dto.getTelefone(),
+            dto.getCpf()
+        );
+    }
+
     public String getNome() {
         return nome;
     }

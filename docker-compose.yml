@@ -1,0 +1,24 @@
+version: '3.9'
+
+networks:
+  challenge-network:
+    name: challenge-network
+    driver: bridge
+
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: postgres_crud_java
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: 1010
+      POSTGRES_DB: crud
+    ports:
+      - "5400:5432"
+    volumes:
+      - postgres_data_java:/var/lib/postgresql/data
+
+volumes:
+  postgres_data_java:

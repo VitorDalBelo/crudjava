@@ -1,6 +1,8 @@
 package com.vitor.crudjava.modules.cliente.dto;
 
-import java.util.Random;
+import java.text.SimpleDateFormat;
+
+import com.vitor.crudjava.modules.cliente.models.ClienteEntity;
 
 public class GetClienteDTO {
 
@@ -11,15 +13,17 @@ public class GetClienteDTO {
     private Long telefone;
     private String cpf;
 
-    public GetClienteDTO(String nome, String email, String aniversario, Long telefone, String cpf) {
-        Random random = new Random();
-        this.id = (long) (random.nextInt(999999) + 1);
-        this.nome = nome;
-        this.email = email;
-        this.aniversario = aniversario;
-        this.telefone = telefone;
-        this.cpf = cpf;
+
+    public GetClienteDTO(ClienteEntity entity) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        this.id = entity.getId();
+        this.nome = entity.getNome();
+        this.email = entity.getEmail();
+        this.aniversario = dateFormat.format(entity.getAniversario());
+        this.telefone = entity.getTelefone();
+        this.cpf = entity.getCpf();
     }
+
 
     public Long getId() {
         return id;
